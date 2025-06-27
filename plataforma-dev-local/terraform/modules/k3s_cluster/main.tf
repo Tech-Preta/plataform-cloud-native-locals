@@ -48,7 +48,19 @@ resource "null_resource" "k3s_server_install" {
       curl -sfL ${var.k3s_install_script_url} | INSTALL_K3S_VERSION='${var.k3s_version}' INSTALL_K3S_NAME='${var.cluster_name}' INSTALL_K3S_EXEC='server ${var.k3s_extra_args}' sh -s -
 
       echo "Aguardando o k3s server iniciar..."
-      sleep 30 # Dê um tempo para o servidor iniciar completamente
+      timeout=300 # Tempo máximo de espera em segundos
+      interval=10 # Intervalo entre as tentativas em segundos
+      elapsed=0
+      while ! sudo k3s kubectl get nodes --kubeconfig /etc/rancher/k3s/k3s.yaml &>/dev/null; do
+        if [ $elapsed -ge $timeout ]; then
+          echo "Erro: O k3s server não iniciou dentro do tempo limite de $timeout segundos."
+          exit 1
+        fi
+        echo "k3s server ainda não está pronto. Tentando novamente em $interval segundos..."
+        sleep $interval
+        elapsed=$((elapsed + interval))
+      done
+      echo "k3s server está pronto."
 
       echo "Verificando status do k3s..."
       sudo k3s kubectl get nodes --kubeconfig /etc/rancher/k3s/k3s.yaml
