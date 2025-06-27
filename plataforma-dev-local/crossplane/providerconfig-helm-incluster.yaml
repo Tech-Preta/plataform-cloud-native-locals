@@ -1,0 +1,30 @@
+apiVersion: helm.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: helm-incluster-default # Nome alterado para maior clareza
+  # annotations:
+  #   \"helm.crossplane.io/default-for-scope\": \"\" # Descomente se quiser torná-lo o padrão para todo o cluster
+spec:
+  # Para operar dentro do mesmo cluster (in-cluster config):
+  # Não é necessário especificar 'credentials' se o pod do provider tem as permissões corretas
+  # via ServiceAccount para gerenciar recursos no cluster.
+  # O provider-helm tentará usar as credenciais in-cluster por padrão se nada for especificado.
+  # Esta é a configuração mais simples para quando o provider-helm gerencia charts
+  # no mesmo cluster onde o Crossplane está instalado.
+
+  # Se você quisesse que este providerconfig apontasse para um cluster remoto, você faria algo como:
+  # credentials:
+  #   source: Secret
+  #   secretRef:
+  #     namespace: crossplane-system
+  #     name: remote-cluster-kubeconfig-secret # Nome do secret contendo o kubeconfig do cluster remoto
+  #     key: kubeconfig
+
+  # Outras configurações opcionais:
+  # caBundle: Conteúdo do CA bundle para verificar o servidor API do Kubernetes (se usar TLS customizado)
+  # insecureSkipTLSVerify: true # Não recomendado para produção, mas pode ser útil para dev/test com certs auto-assinados.
+  # server: URL do servidor API do Kubernetes (se não for in-cluster e diferente do que está no kubeconfig)
+  # token: Bearer token para autenticação (se não usar kubeconfig)
+  # impersonate: Username a ser impersonado
+  # impersonateGroups: Grupos a serem impersonados
+  # impersonateServiceAccount: ServiceAccount a ser impersonado (no formato namespace/name)

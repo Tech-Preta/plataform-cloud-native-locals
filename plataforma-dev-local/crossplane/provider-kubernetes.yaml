@@ -1,0 +1,27 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.13.0 # Verifique a última versão compatível
+  # Para encontrar a última versão:
+  # Visite https://marketplace.upbound.io/providers/crossplane-contrib/provider-kubernetes/
+  # Ou o repositório GitHub do provider.
+  # É crucial usar uma versão compatível com sua versão do Crossplane.
+
+  # controllerConfigRef: Opcional, para configurações avançadas do controller do provider.
+  # Exemplo:
+  # controllerConfigRef:
+  #   name: kubernetes-provider-config
+---
+# Exemplo de ControllerConfig (se você descomentar controllerConfigRef acima):
+# apiVersion: pkg.crossplane.io/v1alpha1
+# kind: ControllerConfig
+# metadata:
+#   name: kubernetes-provider-config
+#   labels:
+#     app: crossplane-provider-kubernetes
+# spec:
+#   image: xpkg.upbound.io/crossplane-contrib/provider-kubernetes-controller:v0.13.0 # Use a mesma versão do package
+#   replicas: 1
+#   # ... outras configurações como resources, serviceAccountName, etc.
