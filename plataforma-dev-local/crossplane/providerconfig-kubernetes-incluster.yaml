@@ -1,0 +1,33 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: kubernetes-incluster-default
+  # annotations:
+  #   \"kubernetes.crossplane.io/default-for-scope\": \"\" # Descomente se quiser torná-lo o padrão para todo o cluster
+spec:
+  # Para configuração in-cluster, o provider usa automaticamente a ServiceAccount
+  # do seu pod se as credenciais não forem especificadas e source for InjectedIdentity.
+  # Certifique-se de que a ServiceAccount do Crossplane e/ou do provider-kubernetes
+  # tenha as permissões necessárias para gerenciar os recursos desejados.
+  credentials:
+    source: InjectedIdentity # Indica para usar a identidade do pod (ServiceAccount) do provider.
+
+  # Se você precisasse especificar um ServiceAccount diferente (ainda in-cluster):
+  # credentials:
+  #   source: ServiceAccount
+  #   serviceAccountRef:
+  #     namespace: crossplane-system
+  #     name: other-service-account-name
+
+  # Para apontar para um cluster externo (não este caso para 'incluster-default'):
+  # credentials:
+  #   source: Secret
+  #   secretRef:
+  #     namespace: crossplane-system
+  #     name: remote-cluster-kubeconfig-secret
+  #     key: kubeconfig
+  #
+  # Específico para provider-kubernetes, você também pode controlar o reprocessamento (pollInterval):
+  # pollInterval: "PT1M" # Formato de duração ISO 8601. Ex: 1 minuto. O padrão é 10 minutos.
+  #                      Define com que frequência o provider verifica o estado dos recursos externos.
+  #                      Use com cautela, pois intervalos muito curtos podem sobrecarregar o API server.

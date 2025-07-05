@@ -1,0 +1,40 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-official # Nomeado para distinguir de outros providers AWS se houver (ex: community)
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws:v1.4.0 # Verifique a última versão compatível
+  # Para encontrar a última versão:
+  # Visite https://marketplace.upbound.io/providers/upbound/provider-aws
+  # Ou o repositório GitHub: https://github.com/upbound/provider-aws
+  # É crucial usar uma versão compatível com sua versão do Crossplane.
+  # A Upbound atualiza frequentemente seus providers.
+
+  # controllerConfigRef: Opcional, para configurações avançadas do controller do provider.
+  # Exemplo:
+  # controllerConfigRef:
+  #   name: aws-provider-config
+
+---
+# Exemplo de ControllerConfig (se você descomentar controllerConfigRef acima):
+# apiVersion: pkg.crossplane.io/v1alpha1 # A versão da API do ControllerConfig pode variar com a versão do Crossplane
+# kind: ControllerConfig
+# metadata:
+#   name: aws-provider-config
+#   labels:
+#     app: crossplane-provider-aws
+# spec:
+#   image: xpkg.upbound.io/upbound/provider-aws-controller:v1.4.0 # Use a mesma versão do package
+#   replicas: 1
+#   # ... outras configurações como resources, serviceAccountName, etc.
+#   # Por exemplo, para especificar a service account que o provider usará:
+#   # serviceAccountName: aws-provider-sa
+#   #
+#   # Para definir limites de recursos para o pod do provider:
+#   # resources:
+#   #   limits:
+#   #     cpu: "1"
+#   #     memory: "1Gi"
+#   #   requests:
+#   #     cpu: "100m"
+#   #     memory: "256Mi"

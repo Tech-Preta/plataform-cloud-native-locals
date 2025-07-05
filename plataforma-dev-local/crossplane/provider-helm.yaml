@@ -1,0 +1,36 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-helm
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-helm:v0.15.0 # Verifique a última versão compatível no Upbound Marketplace ou GitHub
+  # Observação: As versões dos providers mudam. Recomenda-se verificar a última estável.
+  # Exemplo: Para encontrar a última, você pode pesquisar "provider-helm crossplane" no Google
+  # ou ir diretamente para https://marketplace.upbound.io/providers/crossplane-contrib/provider-helm/
+
+  # controllerConfigRef: Opcional, para configurações avançadas do controller do provider.
+  # Normalmente não é necessário para começar, a menos que você precise de proxies específicos,
+  # limites de recursos para o pod do provider, ou outras configurações detalhadas.
+  # Se usado, você precisaria criar um recurso ControllerConfig. Exemplo:
+  #   name: helm-provider-config
+
+# Exemplo de ControllerConfig (se você descomentar controllerConfigRef acima):
+# ---
+# apiVersion: pkg.crossplane.io/v1alpha1
+# kind: ControllerConfig
+# metadata:
+#   name: helm-provider-config
+#   labels:
+#     app: crossplane-provider-helm
+# spec:
+#   image: xpkg.upbound.io/crossplane-contrib/provider-helm-controller:v0.15.0 # Use a mesma versão do package
+#   replicas: 1
+#   serviceAccountName: provider-helm-sa # Exemplo, pode precisar de um SA específico com permissões
+#   resources:
+#     limits:
+#       cpu: 500m
+#       memory: 512Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+#   # Mais configurações como tolerations, nodeSelector, etc. podem ser adicionadas aqui.
